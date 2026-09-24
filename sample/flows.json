@@ -1,0 +1,14 @@
+{
+  "rounds_before": 3,
+  "rounds_after": 2,
+  "change": {"flow": "f2", "weight": 3},
+  "weights": {"f1": 2, "f2": 1},
+  "packets": [
+    {"flow": "f1", "id": "p1", "size": 4},
+    {"flow": "f2", "id": "p2", "size": 3},
+    {"flow": "f1", "id": "p3", "size": 2},
+    {"flow": "f2", "id": "p4", "size": 3},
+    {"flow": "f1", "id": "p5", "size": 6},
+    {"flow": "f2", "id": "p6", "size": 3}
+  ]
+}
