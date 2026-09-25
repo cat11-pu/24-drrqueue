@@ -48,6 +48,7 @@ def main() -> int:
     print("恢复后欠账 =", recovered.get("deficits"))
     print("恢复后各流权重 =", recovered.get("weights"))
     print("不变量（出队字节 = 入队字节 - 剩余字节） =", stats.get("conserved"))
+    print("每轮字节配额 =", stats.get("quanta"))
     server.shutdown()
     return 0
 

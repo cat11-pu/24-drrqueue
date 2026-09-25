@@ -1,13 +1,20 @@
-"""server.py：本机服务（基线：enqueue/dequeue/set_weight/stats）。"""
+"""server.py：本机服务（enqueue/dequeue/set_weight/recover/stats，WAL 落盘）。"""
 from __future__ import annotations
 
 import json
+import os
 import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from drrqueue import DeficitQueue
 
-QUEUE = DeficitQueue()
+WAL_PATH = os.environ.get("DRRQUEUE_WAL", "drrqueue.wal")
+
+# 演示服务每次启动从空队列开始；崩溃/重启前的状态用 POST /recover 从 WAL 重放。
+if os.path.exists(WAL_PATH):
+    os.remove(WAL_PATH)
+
+QUEUE = DeficitQueue(WAL_PATH)
 
 
 class Handler(BaseHTTPRequestHandler):

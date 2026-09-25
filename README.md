@@ -15,3 +15,9 @@
 ## 验收自检
 
     python3 check_http.py
+
+## 持久化
+
+enqueue/dequeue/set_weight 以 JSON 行追加到 `drrqueue.wal`；
+`POST /recover` 重放 WAL 恢复队列、权重、欠账，尾部半条记录自动忽略。
+服务每次启动从空队列开始（删除旧 WAL）。
