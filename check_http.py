@@ -1,11 +1,14 @@
 """check_http.py：起服务、按脚本走一圈，打印验收面。"""
 import json
+import os
 import sys
 import threading
 import urllib.error
 import urllib.request
 
 from server import serve
+
+WAL_PATH = "drrqueue.wal"
 
 
 def call(method, url, body=None):
@@ -26,6 +29,8 @@ def parse(text):
 
 def main() -> int:
     spec = json.load(open(sys.argv[1] if len(sys.argv) > 1 else "sample/flows.json", encoding="utf-8"))
+    if os.path.exists(WAL_PATH):
+        os.remove(WAL_PATH)  # 自检从干净场景开始
     server = serve(0)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     base = "http://127.0.0.1:%d" % server.server_port
@@ -48,6 +53,7 @@ def main() -> int:
     print("恢复后欠账 =", recovered.get("deficits"))
     print("恢复后各流权重 =", recovered.get("weights"))
     print("不变量（出队字节 = 入队字节 - 剩余字节） =", stats.get("conserved"))
+    print("每轮字节配额 =", stats.get("quota"))
     server.shutdown()
     return 0
 

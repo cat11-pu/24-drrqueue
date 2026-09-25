@@ -1,4 +1,4 @@
-"""server.py：本机服务（基线：enqueue/dequeue/set_weight/stats）。"""
+"""server.py：本机服务（enqueue/dequeue/set_weight/stats/recover）。"""
 from __future__ import annotations
 
 import json
@@ -7,7 +7,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from drrqueue import DeficitQueue
 
-QUEUE = DeficitQueue()
+QUEUE = DeficitQueue(wal_path="drrqueue.wal")
 
 
 class Handler(BaseHTTPRequestHandler):
